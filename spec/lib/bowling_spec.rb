@@ -16,6 +16,7 @@ describe "ボウリングのスコア計算" do
         context "全ての投球で1ピンずつ倒した場合" do
             it "20になること" do
                 add_many_scores(20,1)
+                @game.calc_score
                 expect(@game.total_score).to eq 20
             end
         end
@@ -28,7 +29,7 @@ describe "ボウリングのスコア計算" do
                 # 第二フレームの一投目で4点
                 @game.add_score(4)
                 # 以降は全てガター
-                add_mane_scores(17,0)
+                add_many_scores(17,0)
                 # 合計を計算
                 @game.calc_score
                 # 期待する合計
@@ -46,7 +47,7 @@ describe "ボウリングのスコア計算" do
                 @game.add_score(5)
                 @game.add_score(4)
                 # 以降は全てガター
-                add_mane_scores(16,0)
+                add_many_scores(16,0)
                 # 合計を計算
                 @game.calc_score
                 # 期待する合計
@@ -63,7 +64,7 @@ describe "ボウリングのスコア計算" do
                 # 第二フレームの一投目で4点
                 @game.add_score(4)
                 # 15投は全てガター
-                add_mane_scores(15,0)
+                add_many_scores(15,0)
                 # 最終フレームで3点、7点のスペア
                 @game.add_score(3)
                 @game.add_score(7)
