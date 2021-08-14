@@ -6,12 +6,18 @@ class Bowling
         @total_score = 0
         # 全体のスコアを格納する配列
         @scores = []
-        #一時保存用の配列
+        # 一時保存用の配列
         @temp = []
+        # フレーム毎の合計を格納する配列
+        @frame_score = []
     end
     
     def total_score
         @total_score
+    end
+    
+    def frame_score(frame)
+        @frame_score[frame - 1]
     end
     
     def add_score(pins)
@@ -36,6 +42,8 @@ class Bowling
             else
                 @total_score += score.inject(:+)
             end
+            # 合計をフレーム毎に記録しておく
+            @frame_score << @total_score
         end
     end
     
