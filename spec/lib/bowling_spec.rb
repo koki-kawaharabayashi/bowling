@@ -8,6 +8,7 @@ describe "ボウリングのスコア計算" do
         context "すべての投球がガターだった場合" do
             it "0になること" do
                 add_many_scores(20,0)
+                # 合計を計算
                 @game.calc_score
                 expect(@game.total_score).to eq 0
             end
@@ -16,8 +17,15 @@ describe "ボウリングのスコア計算" do
         context "全ての投球で1ピンずつ倒した場合" do
             it "20になること" do
                 add_many_scores(20,1)
+                # 合計を計算
                 @game.calc_score
                 expect(@game.total_score).to eq 20
+            end
+            it "1フレーム目の合計が2になること" do
+                add_many_scores(20,1)
+                # 合計を計算
+                @game.calc_score
+                expect(@game.frame_score(1)).to eq 2
             end
         end
         
@@ -35,6 +43,20 @@ describe "ボウリングのスコア計算" do
                 # 期待する合計
                 # 3+7+4+(4)=18
                 expect(@game.total_score).to eq 18
+            end
+            it "1フレーム目の合計にスペアボーナスが加算されること" do
+                # 第一フレームで3点、7点のスペア
+                @game.add_score(3)
+                @game.add_score(7)
+                # 第二フレームの一投目で4点
+                @game.add_score(4)
+                # 以降は全てガター
+                add_many_scores(17,0)
+                # 合計を計算
+                @game.calc_score
+                # 期待する合計
+                # 3+7+(4)=14
+                expect(@game.frame_score(1)).to eq 14
             end
         end
         
@@ -90,6 +112,20 @@ describe "ボウリングのスコア計算" do
                 # 期待する合計
                 # 10+5+(5)+4+(4)=28
                 expect(@game.total_score).to eq 28
+            end
+            it "1フレーム目の合計にストライクボーナスが加算されること" do
+                # 第一フレームでストライク
+                @game.add_score(10)
+                # 第二フレームで5点、4点
+                @game.add_score(5)
+                @game.add_score(4)
+                # 以降は全てガター
+                add_many_scores(16,0)
+                # 合計を計算
+                @game.calc_score
+                # 期待する合計
+                # 10+(5)+(4)=19
+                expect(@game.frame_score(1)).to eq 19
             end
         end
         
